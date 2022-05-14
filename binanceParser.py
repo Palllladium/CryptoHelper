@@ -15,9 +15,11 @@ def get_ticker_info_from_binance(request):
                  f"to {names_of_coins[1].strip()}:\n\n"
         for item in items:
             map_for_ticker_binance = {"lastPrice": "Цена последней сделки", "lowPrice": "Минимальная цена",
-                   "highPrice": "Максимальная цена", "bidPrice": "Цена покупки", "askPrice": "Цена продажи",
-                   "weightedAvgPrice": "Средневзвешенная цена", "priceChangePercent": "Изменение цены за сутки %",
-                   "volume": "Объем торгов базовой валюты"}
+                                      "highPrice": "Максимальная цена", "bidPrice": "Цена покупки",
+                                      "askPrice": "Цена продажи",
+                                      "weightedAvgPrice": "Средневзвешенная цена",
+                                      "priceChangePercent": "Изменение цены за сутки %",
+                                      "volume": "Объем торгов базовой валюты"}
             answer += f"{map_for_ticker_binance[item]}: {info_of_ticker[item]}\n"
         return answer
 

@@ -7,14 +7,15 @@ def get_ticker_info_from_yobit(request):
         names_of_coins = request.lower()[5:].split(" to ")
         req = requests.get(f"https://yobit.net/api/3/ticker/"
                            f"{names_of_coins[0].strip()}_{names_of_coins[1].strip()}")
-        info_of_ticker =req.json()[f"{names_of_coins[0].strip()}_{names_of_coins[1].strip()}"]
+        info_of_ticker = req.json()[f"{names_of_coins[0].strip()}_{names_of_coins[1].strip()}"]
         items = ["High", "Low", "Avg", "Vol", "Last", "Buy", "Sell"]
         answer = f"{datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n" \
                  f"Информация по паре {names_of_coins[0].strip()} to {names_of_coins[1].strip()}:\n\n"
         for item in items:
-            map_for_ticker_yobit = {"High": "Максимальная цена", "Low": "Минимальная цена", "Avg": "Средневзвешенная цена",
-                   "Vol": "Объем торгов базовой валюты", "Last": "Цена последней сделки",
-                   "Buy": "Цена покупки", "Sell": "Цена продажи"}
+            map_for_ticker_yobit = {"High": "Максимальная цена", "Low": "Минимальная цена",
+                                    "Avg": "Средневзвешенная цена",
+                                    "Vol": "Объем торгов базовой валюты", "Last": "Цена последней сделки",
+                                    "Buy": "Цена покупки", "Sell": "Цена продажи"}
             answer += f"{map_for_ticker_yobit[item]}: {info_of_ticker[item.lower()]}\n"
         return answer
     except Exception as ex:

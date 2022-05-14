@@ -5,12 +5,41 @@ from telebot import types
 from yobitParser import get_orders_info_from_yobit, get_ticker_info_from_yobit
 from poloniexParser import get_orders_info_from_poloniex, get_ticker_info_from_poloniex
 from binanceParser import get_orders_info_from_binance, get_ticker_info_from_binance
+import time
+
+def timer_subscribe():
+    while True:
+        print('kek')
+        time.sleep(5)
 
 
 def telegram_bot(token):
     bot = telebot.TeleBot(token)
     request = ""
     current_exchange = ""
+    is_subscribe = False
+
+    def timer_subscribe():
+        """while is_subscribe:
+            change = get_change()
+            if change>5:
+                bot.send_message()
+            time.sleep(5)"""
+        pass
+
+    @bot.message_handler(commands=["subscribe"])
+    def subscribe(message):
+        bot.send_message(message.chat.id, "Чтобы получать сообщения об изменениях цены на пару, напиши с какой биржи"
+                                          " хочешь получать информацию, о какой паре и об изменении на сколько "
+                                          "процентов тебя стоит уведомлять\n"
+                                          "Пример:\n"
+                                          "Subscribe: Binance, btc to usdt, 10")
+
+    @bot.message_handler(commands=["unsubscribe"])
+    def subscribe(message):
+        nonlocal is_subscribe
+        is_subscribe = False
+        bot.send_message(message.chat.id, "Ты описался от всех оповещений")
 
     @bot.message_handler(commands=["help"])
     def help_message(message):
@@ -75,6 +104,19 @@ def telegram_bot(token):
 
     @bot.message_handler(content_types=["text"])
     def send_text(message):
+        regex_of_subscribe = re.compile("Subscribe: [a-zA-Z]+")
+        if regex_of_subscribe.match(message.text):
+            data = f"{message.chat.id} {' '.join(message.text[11:].split(', '))}\n"
+            print(data)
+            f = open('dataSubscribe.txt', 'a')
+            f.write(data)
+            f.close()
+            bot.send_message(message.chat.id, "Отлично, подписка выполнена")
+            nonlocal is_subscribe
+            is_subscribe = True
+            timer_subscribe()
+            return
+
         nonlocal request
         nonlocal current_exchange
         request += message.text

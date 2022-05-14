@@ -12,7 +12,7 @@ def get_ticker_info_from_poloniex(request):
                  f"Информация по паре {names_of_coins[0].strip()} to {names_of_coins[1].strip()}:\n\n"
         for item in items:
             map_for_ticker_poloniex = {"last": "Цена последней сделки", "low24hr": "Минимальная цена",
-                   "high24hr": "Максимальная цена", "percentChange": "Изменение цены за сутки %"}
+                                       "high24hr": "Максимальная цена", "percentChange": "Изменение цены за сутки %"}
             answer += f"{map_for_ticker_poloniex[item]}: {info_of_ticker[item]}\n"
         return answer
 
