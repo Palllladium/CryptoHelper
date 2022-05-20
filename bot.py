@@ -196,5 +196,4 @@ def telegram_bot(token):
 
 
 if __name__ == '__main__':
-    print('KAKZHEYAZAEBALSYA')
     telegram_bot(token)
